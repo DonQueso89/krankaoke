@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+    db:
+        image: postgres:11.6
+        networks:
+            - krankaoke
+
+    web:
+        build: .
+        image: krankaoke_web
+        ports:
+            - "8080:8080"
+        volumes:
+            - ./krankaoke_backend:/krankaoke_backend
+        environment:
+            DJANGO_SECRET_KEY: local
+        networks:
+            - krankaoke
+        depends_on:
+            - db
+
+networks:
+    krankaoke:
+        name: "krankaoke_connect"
