@@ -2,7 +2,7 @@
 name = "krankaoke_backend"
 version = "0.1.1"
 description = ""
-authors = ["Kees van Ekeren <kees.van.ekeren@mobpro.com>"]
+authors = ["Kees van Ekeren <kg.v.ekeren@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
