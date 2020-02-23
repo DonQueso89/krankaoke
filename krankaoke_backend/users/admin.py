@@ -1,3 +1,4 @@
 from django.contrib import admin
+from krankaokes.models import Krankaoke
 
-# Register your models here.
+admin.site.register(Krankaoke)

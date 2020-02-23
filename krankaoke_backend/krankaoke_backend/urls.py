@@ -15,18 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf.urls.static import static
+from django.conf import settings
 from rest_framework import routers
 from rest_framework.authtoken import views as drf_views
 
 from users import views as user_views
+from krankaokes import views as krankaoke_views
 
 router = routers.DefaultRouter()
 router.register(r"users", user_views.UserViewSet)
 router.register(r"users", user_views.CreateUserViewSet)
+router.register(r"krankaokes", krankaoke_views.KrankaokeViewSet,  basename='krankaokes')
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/", include(router.urls)),
     path("api_token/", drf_views.obtain_auth_token),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

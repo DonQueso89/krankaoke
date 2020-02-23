@@ -136,3 +136,6 @@ dmypy.json
 
 # we use pyproject toml and only generate req txt whenever we need to with Poetry
 *requirements.txt
+
+# local storage for uploaded media
+krankaoke_backend/media
