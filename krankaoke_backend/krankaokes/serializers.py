@@ -5,7 +5,7 @@ from krankaokes.models import Krankaoke
 class ListKrankaokeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Krankaoke
-        fields = ['artist', 'title', 'user']
+        fields = ['id', 'artist', 'title', 'user']
 
 
 class KrankaokeSerializer(serializers.ModelSerializer):
