@@ -1,6 +1,7 @@
-from django.db import models
-from django.conf import settings
 import pendulum
+from django.conf import settings
+from django.db import models
+from django.contrib.postgres.fields import JSONField
 
 
 def user_path(instance, file_name):
@@ -14,6 +15,7 @@ class Krankaoke(models.Model):
     artist = models.CharField(blank=False, max_length=128)
     title = models.CharField(blank=False, max_length=128)
     audio = models.FileField(upload_to=user_path, blank=False)
+    timings = JSONField(blank=True, null=True)
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 

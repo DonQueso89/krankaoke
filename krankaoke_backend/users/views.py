@@ -1,9 +1,8 @@
 from django.contrib.auth.models import Group, User
-from rest_framework import mixins, viewsets, response
-from rest_framework.decorators import action
-
-from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import mixins, response, viewsets
+from rest_framework.decorators import action
 
 from users.serializers import CreateUserSerializer, UserSerializer
 

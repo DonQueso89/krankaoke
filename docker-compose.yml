@@ -13,6 +13,7 @@ services:
             - "8080:8080"
         volumes:
             - ./krankaoke_backend:/krankaoke_backend
+            - ./pytest.ini:/pytest.ini
         environment:
             DJANGO_SECRET_KEY: local
         networks:

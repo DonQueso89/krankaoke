@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from krankaokes.models import Krankaoke
 
 
@@ -9,6 +10,8 @@ class ListKrankaokeSerializer(serializers.ModelSerializer):
 
 
 class KrankaokeSerializer(serializers.ModelSerializer):
+    timings = serializers.JSONField()
+
     class Meta:
         model = Krankaoke
-        fields = ['artist', 'title', 'audio', 'user']
+        fields = ['artist', 'title', 'audio', 'user', 'timings']

@@ -13,19 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
-from django.conf.urls.static import static
-from django.conf import settings
-from rest_framework import routers, permissions
-from rest_framework.authtoken import views as drf_views
-
-from users import views as user_views
-from krankaokes import views as krankaoke_views
-from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import serializers
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions, routers, serializers
+from rest_framework.authtoken import views as drf_views
+
+from krankaokes import views as krankaoke_views
+from users import views as user_views
 
 
 class APITokenSerializer(serializers.Serializer):
