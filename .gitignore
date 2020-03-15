@@ -139,3 +139,5 @@ dmypy.json
 
 # local storage for uploaded media
 krankaoke_backend/media
+
+node_modules
