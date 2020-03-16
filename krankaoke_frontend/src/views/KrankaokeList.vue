@@ -5,7 +5,10 @@
     <hr>
         <b-table striped hover :items="krankaokes" :fields="fields" dark class="mx-0 px-0">
             <template v-slot:cell(play_link)="data">
-            <b-link :to='"/play/" + data.item.id'>Play</b-link>
+              <b-link :to='"/play/" + data.item.id'>Play &rsaquo;</b-link>
+            </template>
+            <template v-slot:cell(record_link)="data">
+              <b-link :to='"/record/" + data.item.id'>Record &bull;</b-link>
             </template>
         </b-table>
     </b-col>
@@ -23,7 +26,7 @@ export default {
   data() { 
     return {
         krankaokes: [],
-        fields: ["artist", "title", "play_link"]
+        fields: ["artist", "title", "play_link", "record_link"]
     }
   },
   mounted: function() {

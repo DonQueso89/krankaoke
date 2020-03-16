@@ -1,17 +1,17 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
 import KrankaokeList from "../views/KrankaokeList.vue";
 import KrankaokeCreate from "@/views/KrankaokeCreate.vue";
 import KrankaokePlayer from "@/views/KrankaokePlayer.vue";
+import KrankaokeRecorder from "@/components/KrankaokeRecorder.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
+    path: "/record/:id",
     name: "record",
-    component: Home
+    component: KrankaokeRecorder
   },
   {
     path: "/upload",
@@ -19,7 +19,7 @@ const routes = [
     component: KrankaokeCreate
   },
   {
-    path: "/list",
+    path: "/",
     name: "list",
     component: KrankaokeList
   },
