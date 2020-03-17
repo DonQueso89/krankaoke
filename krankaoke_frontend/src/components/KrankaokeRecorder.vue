@@ -26,16 +26,17 @@ export default {
       analyser: undefined,
     }
   },
-  visualiseSound() {
+  methods: { 
+  visualiseSound: function() {
     // Execute this <= 60 times per sec
+    /* eslint-disable no-console */
     let width = this.$refs.oscilloscope.width
     let height = this.$refs.oscilloscope.height
     var bufferLength = this.analyser.frequencyBinCount;
     var dataArray = new Uint8Array(bufferLength);
 
-    this.paper.clearRect(0, 0, width, height);
-    this.paper.fillStyle = 'rgb(0, 0, 0)';
-    this.paper.fillRect(0, 0, width, height);
+    let rect = new this.paper.Rectangle(0, 0, width, height);
+    rect.fillColor = "black";
     var barWidth = (width / bufferLength) * 2.5;
     var barHeight;
     var x = 0;
@@ -44,11 +45,12 @@ export default {
         barHeight = dataArray[i]/2;
 
         this.paper.fillStyle = 'rgb(' + (barHeight+100) + ',50,50)';
-        this.paper.fillRect(x,height-barHeight/2,barWidth,barHeight);
+        let rect = new this.paper.Rectangle(x,height-barHeight/2,barWidth,barHeight);
+        rect.fillColor = "white";
 
         x += barWidth + 1;
     }
-  },
+  }},
   mounted() {
     api.getKrankaoke(this.$route.params.id).then(v => { 
         this.krankaoke = v;
@@ -68,10 +70,10 @@ export default {
         analyser.fftSize = 256;  // coarse granularity for bar visualisation
         this.analyser = analyser;
         
-        
         let playIt = function() {
+            var visualiseIt = this.visualiseSound.bind(this)
             this.audioGraph.resume()
-            this.paper.view.onFrame =  this.visualiseSound
+            this.paper.view.onFrame = () => visualiseIt()
         }.bind(this);
         audio.addEventListener("play", playIt)
     })
