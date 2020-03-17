@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,10 +29,10 @@ SECRET_KEY = "w^$6s0ml3gic!&_eb^hn_2smro3f&%2b&cbc)+@04c36gz0@vj"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 CORS_ORIGIN_ALLOW_ALL = DEBUG
-#CORS_ORIGIN_WHITELIST = [
+# CORS_ORIGIN_WHITELIST = [
 #    "http://localhost:8080",
 #    "http://localhost:8081",
-#]
+# ]
 
 ALLOWED_HOSTS = []
 
@@ -91,12 +95,12 @@ WSGI_APPLICATION = "krankaoke_backend.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "krankaoke",
-        "USER": "krankaoke",
-        "PASSWORD": "krankaoke",
-        "HOST": "db",
-        "PORT": "5432",
-        "TEST": {"NAME": "test_krankaoke",},
+        "NAME": os.environ["POSTGRES_DB_NAME"],
+        "USER": os.environ["POSTGRES_DB_USER"],
+        "PASSWORD": os.environ["POSTGRES_DB_PASSWORD"],
+        "HOST": os.environ["POSTGRES_DB_HOST"],
+        "PORT": os.environ["POSTGRES_DB_PORT"],
+        "TEST": {"NAME": "test_krankaoke"},
     }
 }
 
@@ -133,8 +137,8 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
@@ -151,14 +155,8 @@ REST_FRAMEWORK = {
 }
 
 SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'basic': {
-            'type': 'basic'
-        },
-        'Token': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header'
-        }
+    "SECURITY_DEFINITIONS": {
+        "basic": {"type": "basic"},
+        "Token": {"type": "apiKey", "name": "Authorization", "in": "header"},
     },
 }
