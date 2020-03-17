@@ -27,7 +27,7 @@ def validate_timings(value):
 
 
 class KrankaokeSerializer(serializers.ModelSerializer):
-    timings = serializers.JSONField(validators=[validate_timings])
+    timings = serializers.JSONField(validators=[validate_timings], required=False)
 
     class Meta:
         model = Krankaoke

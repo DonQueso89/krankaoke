@@ -27,41 +27,41 @@ export default {
     }
   },
   methods: { 
-  visualiseSound: function() {
-    // Execute this <= 60 times per sec
-    /* eslint-disable no-console */
-    let width = this.$refs.oscilloscope.width
-    let height = this.$refs.oscilloscope.height
-    var bufferLength = this.analyser.frequencyBinCount;
-    var dataArray = new Uint8Array(bufferLength);
+    visualiseSound: function() {
+        // Execute this <= 60 times per sec
+        this.paper.project.activeLayer.removeChildren()
+        let width = this.$refs.oscilloscope.width
+        let height = this.$refs.oscilloscope.height
+        var bufferLength = this.analyser.frequencyBinCount;
+        var dataArray = new Uint8Array(bufferLength);
 
-    let rect = new this.paper.Rectangle(0, 0, width, height);
-    rect.fillColor = "black";
-    var barWidth = (width / bufferLength) * 2.5;
-    var barHeight;
-    var x = 0;
+        var barWidth = (width / bufferLength) * 2.5;
+        var barHeight;
+        var x = 0;
 
-    for(var i = 0; i < bufferLength; i++) {
-        barHeight = dataArray[i]/2;
+        for(var i = 0; i < bufferLength; i++) {
+            this.analyser.getByteFrequencyData(dataArray);
+            barHeight = dataArray[i] ** 1.2;
 
-        this.paper.fillStyle = 'rgb(' + (barHeight+100) + ',50,50)';
-        let rect = new this.paper.Rectangle(x,height-barHeight/2,barWidth,barHeight);
-        rect.fillColor = "white";
+            let rect = new this.paper.Path.Rectangle(x,height-barHeight/2,barWidth,barHeight);
+            rect.strokeColor = "white";
+            rect.fillColor = 'rgb(' + (barHeight+100) + ',50,50)';
 
-        x += barWidth + 1;
-    }
+            x += barWidth + 1;
+        }
   }},
   mounted() {
     api.getKrankaoke(this.$route.params.id).then(v => { 
         this.krankaoke = v;
     });
-    this.paper = this.$root.paper.setup(this.$refs.oscilloscope)
+    this.paper = this.$root.paper.setup(this.$refs.oscilloscope);
+    window.paperr = this.paper;
 
     
     this.$nextTick(function() {
         //  run this after all child components have also been mounted
 
-        this.audioGraph = new AudioContext();
+        this.audioGraph = new (window.AudioContext || window.webkitAudioContext)();
         let audio = document.querySelector("audio")
         let source = this.audioGraph.createMediaElementSource(audio);
         let analyser = this.audioGraph.createAnalyser()
@@ -69,13 +69,19 @@ export default {
         analyser.connect(this.audioGraph.destination)
         analyser.fftSize = 256;  // coarse granularity for bar visualisation
         this.analyser = analyser;
+
         
         let playIt = function() {
-            var visualiseIt = this.visualiseSound.bind(this)
             this.audioGraph.resume()
-            this.paper.view.onFrame = () => visualiseIt()
+            this.paper.view.onFrame = this.visualiseSound
+        }.bind(this);
+
+        let pauseIt = function() {
+            this.audioGraph.suspend()
+            this.paper.view.pause()
         }.bind(this);
         audio.addEventListener("play", playIt)
+        audio.addEventListener("pause", pauseIt)
     })
   }
 }
